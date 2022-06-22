@@ -1,0 +1,5 @@
+/Users/benidiasonama/Documents/Rocket-Elevators-Csharp-Controller/Commercial_Controller.Tests/obj/Debug/net6.0/Commercial_Controller.Tests.csproj.AssemblyReference.cache
+/Users/benidiasonama/Documents/Rocket-Elevators-Csharp-Controller/Commercial_Controller.Tests/obj/Debug/net6.0/Commercial_Controller.Tests.GeneratedMSBuildEditorConfig.editorconfig
+/Users/benidiasonama/Documents/Rocket-Elevators-Csharp-Controller/Commercial_Controller.Tests/obj/Debug/net6.0/Commercial_Controller.Tests.AssemblyInfoInputs.cache
+/Users/benidiasonama/Documents/Rocket-Elevators-Csharp-Controller/Commercial_Controller.Tests/obj/Debug/net6.0/Commercial_Controller.Tests.AssemblyInfo.cs
+/Users/benidiasonama/Documents/Rocket-Elevators-Csharp-Controller/Commercial_Controller.Tests/obj/Debug/net6.0/Commercial_Controller.Tests.csproj.CoreCompileInputs.cache
