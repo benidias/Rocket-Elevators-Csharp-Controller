@@ -6,6 +6,7 @@ namespace Commercial_Controller
     public class Elevator
     {
         public List<int> floorRequestsList;
+        public List<int> completedRequestsList;
         public int currentFloor;
         public int screenDisplay;
         public string status;
@@ -20,11 +21,27 @@ namespace Commercial_Controller
             int currentFloor = _currentFloor;
             Door door = new Door(_id, "closed");
             this.floorRequestsList = new List<int>();
+            this.completedRequestsList = new List<int>();
             direction = "null";
             overweight = false;
             this.move();
             this.sortFloorList();
             //this.addNewRequest(requestedFloor);
+        }
+        public void addNewRequest(int requestedFloor)
+        {
+            if(!(this.floorRequestsList.Contains(requestedFloor)))
+            {
+                this.floorRequestsList.Add(requestedFloor);
+            }
+            if(this.currentFloor < requestedFloor)
+            {
+                this.direction = "up";
+            }
+            if(this.currentFloor > requestedFloor)
+            {
+                this.direction = "down";
+            }
         }
         public void move()
         {
@@ -57,6 +74,7 @@ namespace Commercial_Controller
                 floorRequestsList.RemoveAt(0);
             }
             this.status = "idle";
+            //this.completedRequestsList.Add(currentFloor);
         }
         public void sortFloorList()
         {
@@ -93,21 +111,7 @@ namespace Commercial_Controller
         //         this.operateDoors();
         //     }
         // }
-        public void addNewRequest(int requestedFloor)
-        {
-            if(!(this.floorRequestsList.Contains(requestedFloor)))
-            {
-                this.floorRequestsList.Add(requestedFloor);
-            }
-            if(this.currentFloor < requestedFloor)
-            {
-                this.direction = "up";
-            }
-            if(this.currentFloor > requestedFloor)
-            {
-                this.direction = "down";
-            }
-        }
+        
         
     }
 }
