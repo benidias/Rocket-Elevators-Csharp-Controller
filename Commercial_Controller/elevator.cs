@@ -12,30 +12,31 @@ namespace Commercial_Controller
         public string status;
         public string direction;
         public bool overweight;
-        public int ID{get; set;}
+        public int ID;
+        public int amountOfFloors;
+        public Door door;
         public Elevator(int _id, string _status, int _amountOfFloors, int _currentFloor)
         {
-            int ID = _id;
-            string status = _status;
-            int amountOfFloors = _amountOfFloors;
-            int currentFloor = _currentFloor;
-            Door door = new Door(_id, "closed");
-            this.floorRequestsList = new List<int>();
+            ID = _id;
+            status = _status;
+            amountOfFloors = _amountOfFloors;
+            currentFloor = _currentFloor;
+            door = new Door(_id, "closed");
+            floorRequestsList = new List<int>();
             completedRequestsList = new List<int>();
-            direction = "null";
+            direction = "";
             overweight = false;
-            this.move();
-            this.sortFloorList();
-            //this.addNewRequest(requestedFloor);
         }
-        
+       
         public void move()
         {
-            int destination;
+            //int destination;
+            this.status = "moving";
+            
             while(this.floorRequestsList.Count > 0)
             {
-                destination = this.floorRequestsList[0];
-                this.status = "moving";
+                int destination = this.floorRequestsList[0];
+                
                 if(this.currentFloor < destination)
                 {
                     this.direction = "up";
@@ -59,9 +60,9 @@ namespace Commercial_Controller
                     }
                 }
                 this.status = "stopped";
-                this.operateDoors();
+                operateDoors();
                 completedRequestsList.Add(destination);
-                floorRequestsList.RemoveAt(0);
+                this.floorRequestsList.RemoveAt(0);
             }
             this.status = "idle";
             
@@ -103,7 +104,6 @@ namespace Commercial_Controller
                 this.operateDoors();
             }
         }
-
         public void addNewRequest(int requestedFloor)
         {
             if((this.floorRequestsList.Contains(requestedFloor)) == false)
@@ -119,6 +119,8 @@ namespace Commercial_Controller
                 this.direction = "down";
             }
         }
+
+        
         
         
     }

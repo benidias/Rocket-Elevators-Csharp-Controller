@@ -15,7 +15,7 @@ namespace Commercial_Controller
         public Battery(int _ID, int _amountOfColumns, int _amountOfFloors, int _amountOfBasements, int _amountOfElevatorPerColumn)
         {
             
-            int ID = _ID;
+            ID = _ID;
             //servedFloors = new List<int>();
         //    string status = "online";
             this.columnsList = new List<Column>();
@@ -45,6 +45,7 @@ namespace Commercial_Controller
             //List<int> servedFloors = new List<int>();
             int floor = -1;
             Column column = new Column(columnID, "online", _amountOfBasements, _amountOfElevatorPerColumn,  true);
+            column.servedFloorsList.Add(1);
             for(int i=0; i < _amountOfBasements; i++)
             {
                 column.servedFloorsList.Add(floor);
@@ -64,9 +65,10 @@ namespace Commercial_Controller
             int floor = 1;
             for(int i=0; i < _amountOfColumns; i++)
             {
-                //List<int> servedFloors = new List<int>();
+                
                 int columnID = 1;
                 Column column = new Column(columnID, "online", _amountOfFloors, _amountOfElevatorPerColumn,  false);
+                column.servedFloorsList.Add(1);
                 for(var x=0; x < amountOfFloorsPerColumn; x++)
                 {
                     if(floor <= _amountOfFloors)
@@ -75,8 +77,7 @@ namespace Commercial_Controller
                         floor++;
                     }
                 }
-                //Column column = new Column(columnID, "online", _amountOfFloors, _amountOfElevatorPerColumn,  false);
-                // int cl = Convert.ToInt32(column);
+                
                 this.columnsList.Add(column);
                 columnID++;
                 
@@ -94,7 +95,7 @@ namespace Commercial_Controller
             {
                 floorRequestButtonID++;
                 FloorRequestButton floorRequestButton = new FloorRequestButton(floorRequestButtonID, "off", buttonFloor, "up");
-                //int frb = Convert.ToInt32(floorRequestButton);
+                
                 floorRequestsButtonsList.Add(floorRequestButton);
                 buttonFloor++;
                 
@@ -111,7 +112,7 @@ namespace Commercial_Controller
             for(int i=0; i < _amountOfBasements; i++)
             {
                 FloorRequestButton floorRequestButton = new FloorRequestButton(floorRequestButtonID, "off", buttonFloor, "down");
-                //int frb = Convert.ToInt32(floorRequestButton);
+                
                 floorRequestsButtonsList.Add(floorRequestButton);
                 buttonFloor--;
                 floorRequestButtonID++;
@@ -134,10 +135,10 @@ namespace Commercial_Controller
             return cl;
             
         }
-        public (Column Column, Elevator Elevator) assignElevator(int _requestedFloor, string _direction)
+        public (Column, Elevator) assignElevator(int _requestedFloor, string _direction)
         {
             Column column = this.findBestColumn(_requestedFloor);
-            var elevator = column.findElevator(1, _direction);
+            Elevator elevator = column.findElevator(1, _direction);
             elevator.addNewRequest(1);    
             elevator.move();
             elevator.addNewRequest(_requestedFloor);
@@ -148,15 +149,9 @@ namespace Commercial_Controller
         }
 
 
-        // public Column findBestColumn(int _requestedFloor)
-        // {
-            
-        // }
+       
         // //Simulate when a user press a button at the lobby
-        // public (Column, Elevator) assignElevator(int _requestedFloor, string _direction)
-        // {
-            
-        // }
+        
     }
 }
 

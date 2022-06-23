@@ -9,14 +9,17 @@ namespace Commercial_Controller
         public List<object> callButtonsList;
         public List<int> servedFloorsList;
         public int ID{get; set;}
+        public string status;
+        public int amountOfFloors;
+        public int amountOfElevators;
 
         
         public Column(int _ID, string _status, int _amountOfFloors,  int _amountOfElevators,  bool _isBasement)
         {
-            int ID = _ID;
-            string status = _status;
-            int amountOfFloors = _amountOfFloors;
-            int amountOfElevators = _amountOfElevators;
+            ID = _ID;
+            status = _status;
+            amountOfFloors = _amountOfFloors;
+            amountOfElevators = _amountOfElevators;
             //List<int> ServedFloors =  servedFloors;
             elevatorsList = new List<Elevator>();
             callButtonsList = new List<object>();
@@ -61,18 +64,16 @@ namespace Commercial_Controller
             for(int i=0; i < _amountOfElevators; i++)
             {
                 Elevator elevator = new Elevator(elevatorID , "idle", _amountOfFloors, 1);
-                //int el = Convert.ToInt32(elevator);
+                
                 this.elevatorsList.Add(elevator);
                 elevatorID++;
             }
         }
         public Elevator requestElevator(int userPosition, string direction)
         {
-            var elevator= this.findElevator(userPosition, direction);
-            //elevator.addNewRequest(requestedFloor);
-            elevator.completedRequestsList.Add(userPosition);
+            Elevator elevator= findElevator(userPosition, direction);
+            elevator.addNewRequest(userPosition);
             elevator.move();
-
             elevator.addNewRequest(1);
             elevator.move();
             return elevator;
@@ -84,7 +85,7 @@ namespace Commercial_Controller
             int bestScore = 5;
             int referenceGap = 1000000;
             
-            BestElevatorInformations best = new BestElevatorInformations(bestElevator, 5, 1000000);
+            BestElevatorInformations best = null;
         
             if(requestedFloor == 1)
             {
@@ -117,12 +118,8 @@ namespace Commercial_Controller
                     }
                     bestElevator = best.bestElevator;
                     bestScore = best.bestScore;
-                    referenceGap = best.referenceGap;
-                    
-                    
-                    
-                }
-                
+                    referenceGap = best.referenceGap; 
+                }              
             }
             else
             {
@@ -148,18 +145,18 @@ namespace Commercial_Controller
                     {
                         best = this.checkIfElevatorIsBetter(4, elevator, bestElevator, bestScore, referenceGap, requestedFloor);
                     }
-                    
+                    bestElevator = best.bestElevator;
+                    bestScore = best.bestScore;
+                    referenceGap = best.referenceGap;
                 }
                 
             }
-            bestElevator = best.bestElevator;
-            bestScore = best.bestScore;
-            referenceGap = best.referenceGap;
+            
             return bestElevator;
         }
         public BestElevatorInformations checkIfElevatorIsBetter(int scoreToCheck, Elevator newElevator, Elevator bestElevator, int bestScore, int referenceGap, int floor)
         {
-            
+            int gap = 0;
             if (scoreToCheck < bestScore) 
             {
                 bestScore = scoreToCheck;
@@ -169,7 +166,7 @@ namespace Commercial_Controller
             else if (bestScore == scoreToCheck)
             {
                     
-                var gap = Math.Abs(newElevator.currentFloor - floor);
+                gap = Math.Abs(newElevator.currentFloor - floor);
                 if (referenceGap > gap) {
                     bestElevator = newElevator;
                     referenceGap = gap;
