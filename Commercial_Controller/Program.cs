@@ -11,9 +11,9 @@ namespace Commercial_Controller
             Column column = new Column(1, "online", 60, 20, false);
             column.findElevator(12, "up");
             
-            //int scenarioNumber = Int32.Parse(args[0]);
-            // Scenarios scenarios = new Scenarios();
-            // scenarios.run(scenarioNumber);
+            int scenarioNumber = 1;
+            Scenarios scenarios = new Scenarios();
+            scenarios.run(scenarioNumber);
         }
     }
 }

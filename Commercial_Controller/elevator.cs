@@ -21,16 +21,92 @@ namespace Commercial_Controller
             int currentFloor = _currentFloor;
             Door door = new Door(_id, "closed");
             this.floorRequestsList = new List<int>();
-            this.completedRequestsList = new List<int>();
+            completedRequestsList = new List<int>();
             direction = "null";
             overweight = false;
             this.move();
             this.sortFloorList();
             //this.addNewRequest(requestedFloor);
         }
+        
+        public void move()
+        {
+            int destination;
+            while(this.floorRequestsList.Count > 0)
+            {
+                destination = this.floorRequestsList[0];
+                this.status = "moving";
+                if(this.currentFloor < destination)
+                {
+                    this.direction = "up";
+                    this.sortFloorList();
+                    destination = this.floorRequestsList[0];
+                    while(this.currentFloor < destination)
+                    {
+                        this.currentFloor++;
+                        this.screenDisplay = this.currentFloor;
+                    }
+                }
+                else if(this.currentFloor > destination)
+                {
+                    this.direction = "down";
+                    this.sortFloorList();
+                    destination = this.floorRequestsList[0];
+                    while(this.currentFloor > destination)
+                    {
+                        this.currentFloor--;
+                        this.screenDisplay = this.currentFloor;
+                    }
+                }
+                this.status = "stopped";
+                this.operateDoors();
+                completedRequestsList.Add(destination);
+                floorRequestsList.RemoveAt(0);
+            }
+            this.status = "idle";
+            
+        }
+        public void sortFloorList()
+        {
+            if(this.direction == "up"){
+                this.floorRequestsList.Sort();
+            }
+            else
+            {
+                this.floorRequestsList.Sort();
+                this.floorRequestsList.Reverse();
+            }
+        }
+        public void operateDoors()
+        {
+            Door door = new Door(1, "idle");
+            door.status = "opened";
+
+            if(overweight == false)
+            {
+                door.status = "closing";
+                if(this.status != "obstruction")
+                {
+                    door.status = "closed";
+                }
+                else
+                {
+                    this.operateDoors();
+                }
+            }
+            else
+            {
+                while(overweight == true)
+                {
+                    overweight=true;
+                }
+                this.operateDoors();
+            }
+        }
+
         public void addNewRequest(int requestedFloor)
         {
-            if(!(this.floorRequestsList.Contains(requestedFloor)))
+            if((this.floorRequestsList.Contains(requestedFloor)) == false)
             {
                 this.floorRequestsList.Add(requestedFloor);
             }
@@ -43,74 +119,6 @@ namespace Commercial_Controller
                 this.direction = "down";
             }
         }
-        public void move()
-        {
-            while(this.floorRequestsList.Count != 0)
-            {
-                var destination = this.floorRequestsList[0];
-                this.status = "moving";
-                if(this.currentFloor < destination)
-                {
-                    this.direction = "up";
-                    this.sortFloorList();
-                    while(this.currentFloor < destination)
-                    {
-                        this.currentFloor++;
-                        this.screenDisplay = this.currentFloor;
-                    }
-                }
-                else if(this.currentFloor > destination)
-                {
-                    this.direction = "down";
-                    this.sortFloorList();
-                    while(this.currentFloor < destination)
-                    {
-                        this.currentFloor--;
-                        this.screenDisplay = this.currentFloor;
-                    }
-                }
-                this.status = "stopped";
-                //this.operateDoors();
-                floorRequestsList.RemoveAt(0);
-            }
-            this.status = "idle";
-            //this.completedRequestsList.Add(currentFloor);
-        }
-        public void sortFloorList()
-        {
-            if(this.direction == "up"){
-                this.floorRequestsList.Sort();
-            }
-            else
-            {
-                this.floorRequestsList.Reverse();
-            }
-        }
-        // public void operateDoors()
-        // {
-        //     door.status = "opened";
-
-        //     if(overweight == false)
-        //     {
-        //         Door.status = "closing";
-        //         if(this != "obstruction")
-        //         {
-        //             Door.status = "closed";
-        //         }
-        //         else
-        //         {
-        //             this.operateDoors();
-        //         }
-        //     }
-        //     else
-        //     {
-        //         while(overweight == true)
-        //         {
-        //             overweightalarm=true;
-        //         }
-        //         this.operateDoors();
-        //     }
-        // }
         
         
     }

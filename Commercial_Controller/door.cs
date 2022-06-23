@@ -5,6 +5,7 @@ namespace Commercial_Controller
     {
         
         public string status{get; set;}
+        public int ID{get; set;}
         public Door(int _id, string _status)
         {
             

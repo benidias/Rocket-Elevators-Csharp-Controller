@@ -58,13 +58,14 @@ namespace Commercial_Controller
         }
         public void createColumns(int _amountOfColumns, int _amountOfFloors, int _amountOfBasements, int _amountOfElevatorPerColumn)
         {
-            int columnID = 1;
+            
             double calc = _amountOfFloors/_amountOfColumns;
             var amountOfFloorsPerColumn = Math.Round(calc);
             int floor = 1;
             for(int i=0; i < _amountOfColumns; i++)
             {
                 //List<int> servedFloors = new List<int>();
+                int columnID = 1;
                 Column column = new Column(columnID, "online", _amountOfFloors, _amountOfElevatorPerColumn,  false);
                 for(var x=0; x < amountOfFloorsPerColumn; x++)
                 {
@@ -98,7 +99,7 @@ namespace Commercial_Controller
                 buttonFloor++;
                 
             }
-            Console.WriteLine("go");
+            
             
             
         }
@@ -137,8 +138,12 @@ namespace Commercial_Controller
         {
             Column column = this.findBestColumn(_requestedFloor);
             var elevator = column.findElevator(1, _direction);
+            elevator.addNewRequest(1);    
+            elevator.move();
             elevator.addNewRequest(_requestedFloor);
             elevator.move();
+            
+            
             return (column, elevator);
         }
 
