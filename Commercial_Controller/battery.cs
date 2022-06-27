@@ -10,14 +10,15 @@ namespace Commercial_Controller
         public int _amountOfFloors{get; set;}
         public List<Column> columnsList;
         public List<object> floorRequestsButtonsList;
-        //public List<int> servedFloors;
+        
 
+        // The main battery who contains all 4 columns
         public Battery(int _ID, int _amountOfColumns, int _amountOfFloors, int _amountOfBasements, int _amountOfElevatorPerColumn)
         {
             
             ID = _ID;
-            //servedFloors = new List<int>();
-        //    string status = "online";
+            
+       
             this.columnsList = new List<Column>();
             this.floorRequestsButtonsList = new List<object>();
             if(_amountOfBasements > 0)
@@ -39,10 +40,10 @@ namespace Commercial_Controller
            
 
         }
+        //creating the column who suppose to served all 6 basement floor
         public void createBasementColumn(int _amountOfBasements, int _amountOfElevatorPerColumn)
         {
             int columnID = 1;
-            //List<int> servedFloors = new List<int>();
             int floor = -1;
             Column column = new Column(columnID, "online", _amountOfBasements, _amountOfElevatorPerColumn,  true);
             column.servedFloorsList.Add(1);
@@ -51,12 +52,11 @@ namespace Commercial_Controller
                 column.servedFloorsList.Add(floor);
                 floor--;
             }
-            //Column column = new Column(columnID, "online", _amountOfBasements, _amountOfElevatorPerColumn,  true);
-            //int cl = Convert.ToInt32(column);
             this.columnsList.Add(column);
             columnID++;
 
         }
+        // creating the 3 other columns who supposed to serve the 60 floors and assign them their elevators
         public void createColumns(int _amountOfColumns, int _amountOfFloors, int _amountOfBasements, int _amountOfElevatorPerColumn)
         {
             
@@ -119,6 +119,8 @@ namespace Commercial_Controller
             
             }
         }
+
+        // function to select what is the column who served the floor requested by user
         public Column findBestColumn(int _requestedFloor)
         {
             Column cl = null;
@@ -135,6 +137,8 @@ namespace Commercial_Controller
             return cl;
             
         }
+
+        //Simulate when a user press a button at the lobby and send him the right elevator to go up
         public (Column, Elevator) assignElevator(int _requestedFloor, string _direction)
         {
             Column column = this.findBestColumn(_requestedFloor);
@@ -150,7 +154,7 @@ namespace Commercial_Controller
 
 
        
-        // //Simulate when a user press a button at the lobby
+        
         
     }
 }

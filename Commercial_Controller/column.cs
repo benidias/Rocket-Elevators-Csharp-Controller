@@ -58,6 +58,8 @@ namespace Commercial_Controller
                 }
             }
         }
+
+        //Simulate when a user press a button at the lobby and send him the right elevator to go up
         public void createElevators(int _amountOfFloors, int _amountOfElevators)
         {
             int elevatorID = 1;
@@ -69,6 +71,8 @@ namespace Commercial_Controller
                 elevatorID++;
             }
         }
+
+        //Simulate when a user press a button on a floor to go back to the first floor
         public Elevator requestElevator(int userPosition, string direction)
         {
             Elevator elevator= findElevator(userPosition, direction);
@@ -78,6 +82,8 @@ namespace Commercial_Controller
             elevator.move();
             return elevator;
         }
+
+        // find the right elevator based on where the user want to go
         public Elevator findElevator(int requestedFloor, string requestedDirection)
         {
             
@@ -87,7 +93,7 @@ namespace Commercial_Controller
             
             BestElevatorInformations best = null;
         
-            if(requestedFloor == 1)
+            if(requestedFloor > 0)
             {
                 
                 foreach(Elevator elevator in this.elevatorsList)
@@ -154,6 +160,8 @@ namespace Commercial_Controller
             
             return bestElevator;
         }
+
+        // make sur to make that the elevator selected is the right one
         public BestElevatorInformations checkIfElevatorIsBetter(int scoreToCheck, Elevator newElevator, Elevator bestElevator, int bestScore, int referenceGap, int floor)
         {
             int gap = 0;
@@ -176,11 +184,7 @@ namespace Commercial_Controller
             
         }
 
-        // Simulate when a user press a button on a floor to go back to the first floor
-        // public Elevator requestElevator(int userPosition, string direction)
-        // {
-            
-        // }
+        
 
     }
     public class BestElevatorInformations
